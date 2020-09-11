@@ -1,0 +1,7 @@
+genero:drama@biografia@crimen
+idiomas:espanol@ingles
+subtitulos:espanol@ingles
+sinopsis:Narcos_es_una_serie_web_de_ficcion_historica_basada_en_la_lucha_contra_el_narcotrafico_en_Colombia_durante_los_anos_1990._Los_protagonistas_de_las_dos_primeras_temporadas_son_dos_agentes_de_la_DEA_estadounidense_y_su_principal_objetivo,_el_lider_del_Cartel_de_Medellin,_Pablo_Escobar.
+web:https://www.netflix.com/es-en/title/80025172
+temporada1:Descenso@57@La_espada_de_Simon_Bolivar@47@Los_hombres_de_siempre@47@El_palacio_en_llamas@44@Habra_futuro@55@Explosivos@50@Lloraras_lagrimas_de_sangre@51@La_gran_mentira@51@La_catedral@51@Despegue@45
+temporada2:Por_fin_libre@53@Cambalache@47@Nuestro_hombre_en_Madrid@47@El_bueno_el_malo_y_el_muerto@56

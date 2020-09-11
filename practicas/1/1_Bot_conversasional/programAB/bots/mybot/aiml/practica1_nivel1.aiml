@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+
+<!-- 1. add new episode -->
+
+<category>
+    <pattern>
+        Anade un nuevo capitulo de la temporada <set>number</set> de (la serie) *
+    </pattern>
+    <template>
+        <think>
+            <set name="serie"><star index="2"/></set>
+            <set name="temporada"><star index="1"/></set>
+            <!-- check series and season  -->
+            <set name="seriesExists">
+                <srai>FINDITEM <srai>CODE <get name="serie"/></srai> in <readkeys>series</readkeys></srai>
+            </set>
+            <set name="seasonExists">
+                <srai>FINDITEM temporada<get name="temporada"/> in <readkeys><get name="serie"/></readkeys></srai>
+            </set>
+        </think>
+
+        <condition name="seriesExists">
+            <li value="0">La serie <get name="serie"/> no existe en mi base</li>
+            <li>
+                <condition name="seasonExists">
+                    <li value="0">La temporada <get name="temporada"/> no existe en mi base</li>
+                    <li>Dime el titulo del capitulo</li>
+                </condition>
+            </li>
+        </condition>
+    </template>
+</category>
+
+<category>
+    <pattern> * </pattern>
+    <that>Dime el titulo del capitulo</that>
+    <template>
+        <think>
+            <set name="titulo"><star/></set>
+            <get name="serie"/>
+            <get name="temporada"/>
+            <!-- check episode -->
+            <set name="seasonValue"><map><name><get name="serie"/></name>temporada<get name="temporada"/></map></set>
+            <set name="episodesAndMinutes">
+                <srai>decode_at <get name="seasonValue"/></srai>
+            </set>
+            <set name="episodeExists">
+                <srai>FINDITEM <srai>CODE <get name="titulo"/></srai> in <get name="episodesAndMinutes"/></srai>
+            </set>
+        </think>
+        <condition name="episodeExists">
+            <li value="0">
+                Dime la duracion del capitulo
+            </li>
+            <li>
+                No se puede. Ya existe un capitulo <get name="titulo"/> en temporada <get name="temporada"/>
+            </li>
+        </condition>
+    </template>
+</category>
+
+<category>
+    <pattern> <set>number</set> </pattern>
+    <that>Dime la duracion del capitulo</that>
+    <template>
+        <think><set name="duracion"><star/></set></think>
+        <modifymap>
+            <name><get name="serie"/></name>
+            <key>temporada<get name="temporada"/></key>
+            <value><map><name><get name="serie"/></name>temporada<get name="temporada"/></map>@<srai>CODE <get name="titulo"/></srai>@<get name="duracion"/></value>
+        </modifymap>
+        Este capitulo ya esta disponible
+    </template>
+</category>
+
+<!-- 2. add first episode -->
+
+<category>
+    <pattern>
+        Anade primer capitulo de la temporada <set>number</set> de (la serie) *
+    </pattern>
+    <template>
+        <think>
+            <set name="serie"><star index="2"/></set>
+            <set name="temporada"><star index="1"/></set>
+            <!-- check series and season  -->
+            <set name="seriesExists">
+                <srai>FINDITEM <srai>CODE <get name="serie"/></srai> in <readkeys>series</readkeys></srai>
+            </set>
+            <set name="seasonExists">
+                <srai>FINDITEM temporada<get name="temporada"/> in <readkeys><get name="serie"/></readkeys></srai>
+            </set>
+        </think>
+        <condition name="seriesExists">
+            <li value="0">Esta serie no existe en mi base</li>
+            <li>
+                <condition name="seasonExists">
+                    <li value="0">Dime el titulo del primer capitulo</li>
+                    <li>Esta temporada ya existe en mi base</li>
+                </condition>
+            </li>
+        </condition>
+        
+    </template>
+</category>
+
+<category>
+    <pattern> * </pattern>
+    <that>Dime el titulo del primer capitulo</that>
+    <template>
+        <think><set name="titulo"><star/></set></think>
+        Dime la duracion del primer capitulo
+    </template>
+</category>
+
+<category>
+    <pattern> <set>number</set> </pattern>
+    <that>Dime la duracion del primer capitulo</that>
+    <template>
+        <think><set name="duracion"><star/></set></think>
+        <addtomap>
+            <name><get name="serie"/></name>
+            <key>temporada<get name="temporada"/></key>
+            <value><srai>CODE <get name="titulo"/></srai>@<get name="duracion"/></value>
+        </addtomap>
+        Este primer capitulo ya esta disponible
+    </template>
+</category>
+
+<!-- 3. add new series -->
+
+<category>
+    <pattern>
+        Anade una nueva serie a (la plataforma) *
+    </pattern>
+    <template>
+        <think>
+            <set name="platform"><star/></set>
+            <!-- check platform -->
+            <set name="platformExists">
+                <srai>FINDITEM <srai>CODE <get name="platform"/></srai> in <readset>platforms</readset></srai>
+            </set>
+        </think>
+        <condition name="platformExists">
+            <li value="0">No tengo en mi base la plataforma <get name="platform"/></li>
+            <li>Dime el nombre de la serie</li>
+        </condition>        
+    </template>
+</category>
+
+<category>
+    <pattern> * </pattern>
+    <that>Dime el nombre de la serie</that>
+    <template>
+        <think>
+            <set name="series"><star/></set>
+            <!-- check map file -->
+            <set name="seriesKeyCount">
+                <srai>COUNT <readkeys><get name="series"/></readkeys></srai>
+            </set>
+            <set name="seriesIsCreatedByUser">  
+                <srai>FINDITEM <srai>CODE <get name="series"/></srai> in <readkeys>series</readkeys></srai>
+            </set>
+        </think>
+        <condition name="seriesIsCreatedByUser">
+            <li value="0">
+                Crea un fichero llamado <get name="series"/>.txt en la carpeta maps y despues me reinicia
+                <addtomap>
+                    <name>series</name>
+                    <key><srai>CODE <get name="series"/></srai></key>
+                    <value><get name="platform"/></value>
+                </addtomap>
+            </li>
+            <li>
+                <condition name="seriesKeyCount">
+                    <li value="0">
+                        Dime los generos de la serie
+                    </li>
+                    <li>
+                        La serie <get name="series"/> ya existe en la base
+                    </li>
+                </condition>
+            </li>
+        </condition>        
+    </template>
+</category>
+
+<category>
+    <pattern> * </pattern>
+    <that> ^ Dime los generos de la serie ^ </that>
+    <template>
+        <think>
+            <set name="genre"><srai>CODE <srai>COMA_TO_AT <star/></srai></srai></set>
+        </think>
+        <addtomap>
+            <name><get name="series"/></name>
+            <key>genero</key>
+            <value><get name="genre"/></value>
+        </addtomap>
+        Dime los idiomas de la serie
+    </template>
+</category>
+
+<category>
+    <pattern> * [y e] * </pattern>
+    <that> ^ Dime los generos de la serie ^ </that>
+    <template>
+        <think>
+            <set name="genre"><srai>CODE <srai>COMA_TO_AT <star index="1"/></srai>@<star index="2"/></srai></set>
+        </think>
+        <addtomap>
+            <name><get name="series"/></name>
+            <key>genero</key>
+            <value><get name="genre"/></value>
+        </addtomap>
+        Dime los idiomas de la serie
+    </template>
+</category>
+    
+    <!-- languages -->
+<category> 
+    <pattern> * </pattern>
+    <that> ^ Dime los idiomas de la serie ^ </that>
+    <template>
+        <think><set name="language"><srai>CODE <srai>COMA_TO_AT <star/></srai></srai></set></think>
+        <addtomap>
+            <name><get name="series"/></name>
+            <key>idioma</key>
+            <value><get name="language"/></value>
+        </addtomap>
+        Dime los subtitulos de la serie
+    </template>
+</category>
+
+<category>
+    <pattern> * [y e] * </pattern>
+    <that> ^ Dime los idiomas de la serie ^ </that>
+    <template>
+        <think><set name="language"><srai>CODE <srai>COMA_TO_AT <star index="1"/></srai>@<star index="2"/></srai></set></think>
+        <addtomap>
+            <name><get name="series"/></name>
+            <key>idiomas</key>
+            <value><get name="language"/></value>
+        </addtomap>
+        Dime los subtitulos de la serie
+    </template>
+</category>
+
+    <!-- subtitles -->
+<category>
+    <pattern> * </pattern>
+    <that> ^ Dime los subtitulos de la serie ^ </that>
+    <template>
+        <think><set name="subtitle"><srai>CODE <srai>COMA_TO_AT <star/></srai></srai></set></think>
+        <addtomap>
+            <name><get name="series"/></name>
+            <key>subtitulos</key>
+            <value><get name="subtitle"/></value>
+        </addtomap>
+        Dime el sinopsis de la serie sin usar puntos
+    </template>
+</category>
+
+<category>
+        <pattern> * [y e] * </pattern>
+    <that> ^ Dime los subtitulos de la serie ^ </that>
+    <template>
+        <think><set name="subtitle"><srai>CODE <srai>COMA_TO_AT <star index="1"/></srai>@<star index="2"/></srai></set></think>
+        <addtomap>
+            <name><get name="series"/></name>
+            <key>subtitulos</key>
+            <value><get name="subtitle"/></value>
+        </addtomap>
+        Dime el sinopsis de la serie sin usar puntos
+    </template>
+</category>
+
+    <!-- synopsis -->
+<category>
+    <pattern> * </pattern>
+    <that> ^ Dime el sinopsis de la serie ^ </that>
+    <template>
+        <think><set name="synopsis"><star/></set></think>
+        <addtomap>
+            <name><get name="series"/></name>
+            <key>sinopsis</key>
+            <value><srai>CODE <get name="synopsis"/></srai></value>
+        </addtomap>
+        Dime el sitio web de la serie sin usar puntos
+    </template>
+</category>
+
+    <!-- web -->
+<category>
+    <pattern> * </pattern>
+    <that> ^ Dime el sitio web de la serie ^ </that>
+    <template>
+        <think><set name="web"><star/></set></think>
+        <addtomap>
+            <name><get name="series"/></name>
+            <key>web</key>
+            <value><get name="web"/></value>
+        </addtomap>
+        La serie ya esta disponible
+    </template>
+</category>
+
+
+<!-- functions -->
+<category>
+	<pattern> coma_to_at * </pattern>
+    <template>
+        <think>
+            <set var="solution"></set>
+            <set var="tmp"><srai>CODE <star/></srai></set>
+            <set var="tmp"><explode><get var="tmp"/></explode></set>
+            <set var="char"><first><get var="tmp"/></first></set>
+            <set var="tmp"><rest><get var="tmp"/></rest></set>
+            <set var="nextChar"><first><get var="tmp"/></first></set>
+
+            <condition var="char">
+                <li	value="NIL"></li>
+                <li	value=",">
+                    <set var="tmp"><rest><get var="tmp"/></rest></set>
+
+                    <set var="solution"><get var="solution"/>@</set>
+                    <set var="char"><first><get var="tmp"/></first></set>
+                    <set var="tmp"><rest><get var="tmp"/></rest></set>
+                    <set var="nextChar"><first><get var="tmp"/></first></set>
+                    <loop/>
+                </li>
+                <li>
+                    <set var="solution"><get var="solution"/><get var="char"/></set>
+                    <set var="char"><first><get var="tmp"/></first></set>
+                    <set var="tmp"><rest><get var="tmp"/></rest></set>
+                    <set var="nextChar"><first><get var="tmp"/></first></set>
+                    <loop/>
+                </li>
+            </condition>
+        </think>
+        <get var="solution"/>
+    </template>
+</category>
+
+<category>
+	<pattern> decode_at * </pattern>
+    <template>
+        <think>
+            <set var="solution"></set>
+            <set var="tmp"><srai>CODE <star/></srai></set>
+            <set var="tmp"><explode><get var="tmp"/></explode></set>
+            <set var="char"><first><get var="tmp"/></first></set>
+            <set var="tmp"><rest><get var="tmp"/></rest></set>
+            <set var="nextChar"><first><get var="tmp"/></first></set>
+
+            <condition var="char">
+                <li	value="NIL"></li>
+                <li	value="@">
+                    <condition var="nextChar">
+                        <li value="NIL">
+                            <set var="char"><first><get var="tmp"/></first></set>
+                            <set var="tmp"><rest><get var="tmp"/></rest></set>
+                        </li>
+                        <li value="@">
+                            <set var="char"><first><get var="tmp"/></first></set>
+                            <set var="tmp"><rest><get var="tmp"/></rest></set>
+                            <set var="nextChar"><first><get var="tmp"/></first></set>
+                        </li>
+                        <li>
+                            <set var="tmp"><rest><get var="tmp"/></rest></set>
+
+                            <set var="solution"><get var="solution"/> <get var="nextChar"/></set>
+                            <set var="char"><first><get var="tmp"/></first></set>
+                            <set var="tmp"><rest><get var="tmp"/></rest></set>
+                            <set var="nextChar"><first><get var="tmp"/></first></set>
+                        </li>
+                    </condition>
+                    
+                    <loop/>
+                </li>
+                <li>
+                    <set var="solution"><get var="solution"/><get var="char"/></set>
+                    <set var="char"><first><get var="tmp"/></first></set>
+                    <set var="tmp"><rest><get var="tmp"/></rest></set>
+                    <set var="nextChar"><first><get var="tmp"/></first></set>
+                    <loop/>
+                </li>
+            </condition>
+        </think>
+        <get var="solution"/>
+    </template>
+</category>
+
+</aiml>

@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+
+<!-- languages -->
+    <!-- all -->
+<category>
+    <pattern> En que idiomas se puede ver (la serie) * </pattern>
+    <template>
+        <think>
+            <!-- check series -->
+            <set var="series"><star index="1"/></set>
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                <get var="series"/> se puede ver en <srai>DECODE <srai>CODE <srai>anade_y <srai>decode_fields <map><name><get var="series"/></name>idiomas</map></srai></srai></srai></srai>
+            </li>
+        </condition>
+    </template>
+</category>
+
+<category>
+    <pattern> En que idiomas ^ (esta disponible) (la serie) * </pattern>
+    <template><srai>En que idiomas se puede ver la serie <star index="2"/></srai></template>
+</category>
+
+    <!-- one -->
+<category>
+    <pattern> Se puede ver (la serie) * en * </pattern>
+    <template>
+        <think>
+            <!-- check series and language -->
+            <set var="series"><star index="1"/></set>
+            <set var="language"><star index="2"/></set>
+            <set var="languageAvailable">
+                <srai>FINDITEM <srai>CODE <get var="language"/></srai> IN <srai>decode_fields <map><name><get var="series"/></name>idiomas</map></srai></srai>
+            </set>
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                <condition var="languageAvailable">
+                    <li value="0">
+                        No, <get var="series"/> no esta diponible en <get var="language"/>
+                    </li>
+                    <li>
+                        Si, <get var="series"/> esta disponible en <get var="language"/>
+                    </li>
+                </condition>
+            </li>
+        </condition>
+    </template>
+</category>
+
+<category>
+    <pattern> Esta disponible (la serie) * en * </pattern>
+    <template><srai>Se puede ver la serie <star index="1"/> en <star index="2"/></srai></template>
+</category>
+
+<!-- subtitles -->
+    <!-- all -->
+<category>
+    <pattern> * subtitulos [tiene esta hay se] (disponible) (puede ver) (la serie) * </pattern>
+    <template>
+        <think>
+            <!-- check series -->
+            <set var="series"><star index="2"/></set>
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                <srai>DECODE <srai>CODE <srai>anade_y <srai>decode_fields <map><name><get var="series"/></name>subtitulos</map></srai></srai></srai></srai>
+            </li>
+        </condition>
+    </template>
+</category>
+
+    <!-- one -->
+<category>
+    <pattern> (Se puede ver) (Esta disponible) (la serie) * con subtitulos en * </pattern>
+    <template>
+        <think>
+            <!-- check series and language -->
+            <set var="series"><star index="1"/></set>
+            <set var="language"><star index="2"/></set>
+            <set var="languageAvailable">
+                <srai>FINDITEM <srai>CODE <get var="language"/></srai> IN <srai>decode_fields <map><name><get var="series"/></name>subtitulos</map></srai></srai>
+            </set>
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                <condition var="languageAvailable">
+                    <li value="0">
+                        No, <get var="series"/> no esta diponible con subtitulos en <get var="language"/>
+                    </li>
+                    <li>
+                        Si, <get var="series"/> esta disponibe con subtitulos en <get var="language"/>
+                    </li>
+                </condition>
+            </li>
+        </condition>
+    </template>
+</category>
+
+<!-- number of languages -->
+<category>
+    <pattern> (En) (cuantos) idiomas (se puede ver) (esta disponible) * </pattern>
+    <template>
+        <think>
+            <!-- check series -->
+            <set var="series"><star/></set>
+            <set var="languagesCount">
+                <srai>COUNT <srai>decode_fields <map><name><get var="series"/></name>idiomas</map></srai></srai>
+            </set>
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                La serie <get var="series"/> esta disponible en <get var="languagesCount"/> idiomas
+            </li>
+        </condition>
+    </template>
+</category>
+
+<!-- number of subtitles -->
+<category>
+    <pattern> (En) (cuantos) idiomas de subtitulos (se puede ver) (esta diponible) * </pattern>
+    <template>
+        <think>
+            <!-- check series -->
+            <set var="series"><star/></set>
+            <set var="languagesCount">
+                <srai>COUNT <srai>decode_fields <map><name><get var="series"/></name>subtitulos</map></srai></srai>
+            </set>
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                La serie <get var="series"/> esta disponible en <get var="languagesCount"/> idiomas de subtitulos
+            </li>
+        </condition>
+    </template>
+</category>
+
+<!-- number of episodes in season -->
+<category>
+    <pattern> Cuantos capitulos (hay) (estan disponibles) [en de] (la) temporada <set>number</set> de (la serie) * </pattern>
+    <template>
+        <think>
+            <!-- check series and season -->
+            <set var="season"><star index="1"/></set>
+            <set var="series"><star index="2"/></set>
+            <set var="episodesCount">
+                <srai>COUNT <srai>every_other <srai>decode_fields <map><name><get var="series"/></name>temporada<get var="season"/></map></srai></srai></srai>
+            </set>
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+            <set var="seasonExists">
+                <srai>FINDITEM temporada<get var="season"/> IN <readkeys><get var="series"/></readkeys></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                <condition var="seasonExists">
+                    <li value="0">
+                        No existe temporada <get var="season"/> de <get var="series"/> en mi base
+                    </li>
+                    <li>
+                        En la temporada <get var="season"/> de <get var="series"/> hay <get var="episodesCount"/> capitulos
+                    </li>
+                </condition>
+            </li>
+        </condition>
+    </template>
+</category>
+
+<!-- number of seasons in series -->
+<category>
+    <pattern> Cuantas temporadas (hay) [de en] (la serie) * </pattern>
+    <template>
+        <think>
+            <set var="series"><star index="1"/></set>
+            <!-- check series -->
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+            <set var="seasonsCount">
+                <srai>COUNT <srai>SKIP 5 <readkeys><get var="series"/></readkeys></srai></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                de <get var="series"/> hay <get var="seasonsCount"/> temporadas
+            </li>
+        </condition>
+    </template>
+</category>
+
+<!-- number of episodes in series -->
+<category>
+    <pattern> Cuantos capitulos (hay) [de en] (la serie) * </pattern>
+    <template>
+        <think>
+            <set var="series"><star index="1"/></set>
+            <!-- check series -->
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                De <get var="series"/> hay <srai>count episodes in <get var="series"/></srai> capitulos
+            </li>
+        </condition>
+    </template>
+</category>
+
+<!-- get episode by number -->
+<category>
+    <pattern> [Que Cual] es (el)  (capitulo) <set>number</set> (capitulo) de (la) (temporada) <set>number</set> (de) (la serie) * </pattern>
+    <template>
+        <think>
+            <set var="episodeNum"><star index="1"/></set>
+            <set var="seasonNum"><star index="2"/></set>
+            <set var="series"><star index="3"/></set>
+            <!-- check series, season and episodeNum -->
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+            <set var="seasonExists">
+                <srai>FINDITEM temporada<get var="seasonNum"/> IN <readkeys><get var="series"/></readkeys></srai>
+            </set>
+            <srai>decode_values <map><name><get var="series"/></name>temporada<get var="seasonNum"/></map></srai>
+            <set var="episodeName">
+                <srai>SELECTITEM <get var="episodeNum"/> IN <srai>every_other <srai>decode_fields <map><name><get var="series"/></name>temporada<get var="seasonNum"/></map></srai></srai></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                <condition var="seasonExists">
+                    <li value="0">
+                        La temporada <get var="seasonNum"/> de <get var="series"/> no esta en mi base
+                    </li>
+                    <li>
+                        <condition var="episodeName">
+                            <li value="$">
+                                <srai>cuantos capitulos de temporada <get var="seasonNum"/> de <get var="series"/></srai>
+                            </li>
+                            <li>
+                                El <get var="episodeNum"/> capitulo de la temporada <get var="seasonNum"/> de <get var="series"/> es <srai>DECODE <get var="episodeName"/></srai>
+                            </li>
+                        </condition>
+                    </li>
+                </condition>
+            </li>
+        </condition>
+    </template>
+</category>
+
+
+<!-- episode duration by episode number -->
+<category>
+    <pattern>Cuanto dura (el) capitulo <set>number</set> de (la) (temporada) <set>number</set> de (la serie) *</pattern>
+    <template>
+        <think>
+            <set var="episodeNum"><star index="1"/></set>
+            <set var="seasonNum"><star index="2"/></set>
+            <set var="series"><star index="3"/></set>
+            <set var="valueOfSeason"><srai>decode_fields <map><name><get var="series"/></name>temporada<get var="seasonNum"/></map></srai></set>
+            <!-- check series, season and episode -->
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+            <set var="seasonExists">
+                <srai>FINDITEM temporada<get var="seasonNum"/> IN <readkeys><get var="series"/></readkeys></srai>
+            </set>
+            <srai>decode_values <map><name><get var="series"/></name>temporada<get var="seasonNum"/></map></srai>
+            <set var="episodeName">
+                <srai>SELECTITEM <get var="episodeNum"/> IN <srai>every_other <get var="valueOfSeason"/></srai></srai>
+            </set>
+            <set var="episodeNumDoubled">
+                <srai>FINDITEM <get var="episodeName"/> IN <get var="valueOfSeason"/></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                <condition var="seasonExists">
+                    <li value="0">
+                        La temporada <get var="seasonNum"/> de <get var="series"/> no esta en mi base
+                    </li>
+                    <li>
+                        <condition var="episodeName">
+                            <li value="$">
+                                <srai>cuantos capitulos de temporada <get var="seasonNum"/> de <get var="series"/></srai>
+                            </li>
+                            <li>
+                                El capitulo <get var="episodeNum"/> - <srai>DECODE <get var="episodeName"/></srai>, de la temporada <get var="seasonNum"/> de <get var="series"/> dura <srai>SELECTITEM <map name="successor"><get var="episodeNumDoubled"/></map> IN <get var="valueOfSeason"/></srai> minutos
+                            </li>
+                        </condition>
+                    </li>
+                </condition>
+            </li>
+        </condition>
+    </template>
+</category>
+
+<!-- episode duration by episode name -->
+<category>
+    <pattern>Cuanto dura (el capitulo) * de (la) (temporada) <set>number</set> de (la serie) *</pattern>
+    <template>
+        <think>
+            <set var="episodeName"><star index="1"/></set>
+            <set var="seasonNum"><star index="2"/></set>
+            <set var="series"><star index="3"/></set>
+            <set var="valueOfSeason"><srai>decode_fields <map><name><get var="series"/></name>temporada<get var="seasonNum"/></map></srai></set>
+            <!-- check series, season and episode -->
+            <set var="seriesExists">
+                <srai>FINDITEM <srai>CODE <get var="series"/></srai> IN <readkeys>series</readkeys></srai>
+            </set>
+            <set var="seasonExists">
+                <srai>FINDITEM temporada<get var="seasonNum"/> IN <readkeys><get var="series"/></readkeys></srai>
+            </set>
+            <srai>decode_values <map><name><get var="series"/></name>temporada<get var="seasonNum"/></map></srai>
+            <set var="episodeNumDoubled">
+                <srai>FINDITEM <get var="episodeName"/> IN <get var="valueOfSeason"/></srai>
+            </set>
+        </think>
+        <condition var="seriesExists">
+            <li value="0">
+                La serie <get var="series"/> no esta en mi base
+            </li>
+            <li>
+                <condition var="seasonExists">
+                    <li value="0">
+                        La temporada <get var="seasonNum"/> de <get var="series"/> no esta en mi base
+                    </li>
+                    <li>
+                        <condition var="episodeName">
+                            <li value="$">
+                                <srai>cuantos capitulos de temporada <get var="seasonNum"/> de <get var="series"/></srai>
+                            </li>
+                            <li>
+                                El capitulo <srai>DECODE <get var="episodeName"/></srai> de la temporada <get var="seasonNum"/> de <get var="series"/> dura <srai>SELECTITEM <map name="successor"><get var="episodeNumDoubled"/></map> IN <get var="valueOfSeason"/></srai> minutos
+                            </li>
+                        </condition>
+                    </li>
+                </condition>
+            </li>
+        </condition>
+    </template>
+</category>
+
+<!-- functions -->
+<category>
+    <pattern> decode_fields * </pattern>
+    <template>
+    <think>
+        <set var="palabra"></set>
+        <set var="solucion"></set>
+        <set var="tmp"><star/></set>
+        <set var="tmp"> <explode><get var="tmp"/></explode>	</set>
+        <set var="caracter"><first><get var="tmp"/></first></set>
+        <set var="tmp"><rest><get var="tmp"/></rest></set>
+        <condition var="caracter">
+            <li	value="NIL">
+                <set var="solucion"><get var="solucion"/> <get var="palabra"/></set>
+            </li>
+            <li	value="@">
+                <set var="solucion"><get var="solucion"/> <get var="palabra"/></set>
+                <set var="palabra"></set>
+                <set var="caracter"><first><get var="tmp"/></first></set>
+                <set var="tmp"><rest><get var="tmp"/></rest></set>
+                <loop/>
+            </li>
+            <li>
+                <set var="palabra"><get var="palabra"/><get var="caracter"/></set>
+                <set var="caracter"><first><get var="tmp"/></first></set>
+                <set var="tmp"><rest><get var="tmp"/></rest></set>
+                <loop/>
+            </li>
+        </condition>
+    </think>
+    <get var="solucion"/>
+    </template>
+</category>
+
+<category>
+	<pattern> anade_y * </pattern>
+    <template>
+        <think>
+            <set var="lista"><star/></set>
+            <set var="tamano"><srai>count <get var="lista"/></srai></set>
+            <set var="solucion"></set>
+            <condition var="tamano">
+                <li	value="0"></li>
+                <li	value="1">
+                    <set var="solucion"><get var="lista"/></set>
+                </li>
+                <li>
+                    <condition var="tamano">
+                        <li	value="1">
+                            <set var="solucion"><get var="solucion"/> y <get var="lista"/></set>
+                        </li>
+                        <li>
+                            <set var="palabra"><first><get var="lista"/></first></set>
+                            <set var="lista"><rest><get var="lista"/></rest></set>
+                            <set var="solucion"><get var="solucion"/> <get var="palabra"/></set>
+                            <set var="tamano"><map name="predecessor"><get var="tamano"/></map></set>
+                            <loop/>
+                        </li>
+                    </condition>
+                </li>
+            </condition>
+        </think>
+        <get var="solucion"/>
+    </template>
+</category>
+
+<category>
+	<pattern> every_other * </pattern>
+    <template>
+        <think>
+            <set var="list"><star/></set>
+            <set var="size"><srai>count <get var="list"/></srai></set>
+            <set var="odd">1</set>
+            <set var="solution"></set>
+            <condition var="size">
+                <li	value="0"></li>
+                <li>
+                    <condition var="odd">
+                        <li value="1">
+                            <set var="solution"><get var="solution"/> <srai>TOP <get var="list"/></srai></set>
+                            <set var="list"><srai>REMAIN <get var="list"/></srai></set>
+                            <set var="odd">0</set>
+                        </li>
+                        <li>
+                            <set var="odd">1</set>
+                            <set var="list"><srai>REMAIN <get var="list"/></srai></set>
+                        </li>                    
+                    </condition>    
+                    <set var="size"><map name="predecessor"><get var="size"/></map></set>             
+                    <loop/>
+                </li>
+            </condition>
+        </think>
+        <get var="solution"/>
+    </template>
+</category>
+
+<category>
+    <pattern>skip <set>number</set> *</pattern>
+    <template>
+        <think>
+            <set var="num"><star index="1"/></set>
+            <set var="list"><star index="2"/></set>
+            <condition var="num">
+                <li value="0"></li>
+                <li>
+                    <set var="num"><map name="predecessor"><get var="num"/></map></set>
+                    <set var="list"><srai>REMAIN <get var="list"/></srai></set>
+                    <loop/>
+                </li>
+            </condition>
+        </think>
+        <get var="list"/>
+    </template>
+</category>
+
+<!-- call only on existing series -->
+<category>
+    <pattern>count episodes in *</pattern>
+    <template>
+        <think>
+            <set var="allEpisodes"></set>
+            <set var="series"><star/></set>
+            <set var="seasonsCount">
+                <srai>COUNT <srai>SKIP 5 <readkeys><get var="series"/></readkeys></srai></srai>
+            </set>
+            <condition var="seasonsCount">
+                <li value="0"></li>
+                <li>
+                    <set var="allEpisodes"><get var="allEpisodes"/> <srai>every_other <srai>decode_fields <map><name><get var="series"/></name>temporada<get var="seasonsCount"/></map></srai></srai></set>
+                    <set var="seasonsCount"><map name="predecessor"><get var="seasonsCount"/></map></set>
+                    <loop/>
+                </li>
+            </condition>
+        </think>
+        <srai>COUNT <get var="allEpisodes"/></srai>
+    </template>
+</category>
+
+</aiml>

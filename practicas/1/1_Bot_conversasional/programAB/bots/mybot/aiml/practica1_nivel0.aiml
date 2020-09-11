@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+
+<!-- 1 -->
+
+<category>
+    <pattern>Hablame ^ de ti</pattern>
+    <template>
+        Yo soy <bot name="name"/> y tengo <bot name="age"/>. 
+        Estudio <bot name="study"/> en la <bot name="university"/>.
+        Hice un internado de donde tengo experiencia con la programacion web.
+        Me interesa la Algoritmica y las
+        Matematicas discretas.
+    </template>
+</category>
+
+<category>
+    <pattern>Dime ^ de ti</pattern>
+    <template>
+        <srai>Hablame ^ de ti</srai>
+    </template>
+</category>
+
+<category>
+    <pattern>Quien eres ^</pattern>
+    <template>
+        <srai>Hablame ^ de ti</srai>
+    </template>
+</category>
+
+<!-- 2 -->
+
+<category>
+    <pattern>Cual es tu mayor defecto</pattern>
+    <template>
+        Soy un poco de pragmatico y hago las cosas de mi manera si 
+        no estoy convencido de que la manera popular es mejor.
+    </template>
+</category>
+
+<category>
+    <pattern>* defecto ^</pattern>
+    <template>
+        <srai>Cual es tu mayor defecto</srai>
+    </template>
+</category>
+
+<!-- 3 -->
+
+<category>
+    <pattern>Que aspectos no te gustan de un jefe</pattern>
+    <template>
+        En general no pienso en cualidades negativas. Creo que con cualqier 
+        persona de este nivel se puede hacer una comunicacion laboral eficaz.
+    </template>
+</category>
+
+<category>
+    <pattern>^ aspectos ^ jefe ^</pattern>
+    <template>
+        <srai>Que aspectos no te gustan de un jefe</srai>    
+    </template>
+</category>
+
+<category>
+    <pattern>^ no te gusta+ ^ jefe</pattern>
+    <template>
+        <srai>Que aspectos no te gustan de un jefe</srai>    
+    </template>
+</category>
+
+<!-- 4 -->
+
+<category>
+    <pattern>Cuales son tus 3 mayores virtudes</pattern>
+    <template>
+        Soy leal, asertivo y acepto a la gente tal como es.
+    </template>
+</category>
+
+<category>
+    <pattern>^ 3 ^ virtudes</pattern>
+    <template>
+        <srai>Cuales son tus 3 mayores virtudes</srai>
+    </template>
+</category>
+
+<category>
+    <pattern>^ tres ^ virtudes</pattern>
+    <template>
+        <srai>Cuales son tus 3 mayores virtudes</srai>
+    </template>
+</category>
+
+<!--5-->
+
+<category>
+    <pattern>
+        Te consideras preparado para desempeñar las funciones de este puesto
+    </pattern>
+    <template>
+        Si, este puesto es adecuado para mi erudicion y experiencia.
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ desempen+ ^ puesto ^
+    </pattern>
+    <template>
+        <srai>Te consideras preparado para desempeñar las funciones de este puesto</srai>
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ tomar ^ puesto ^
+    </pattern>
+    <template>
+        <srai>Te consideras preparado para desempeñar las funciones de este puesto</srai>
+    </template>
+</category>
+
+<!--6-->
+
+<category>
+    <pattern>
+        Tienes experiencia en la realizacion de proyectos en equipos de trabajo
+    </pattern>
+    <template>
+        Si, puedo trabajar tanto en equipo pequeno como en uno mas grande.
+    </template>
+</category>
+
+<category>
+    <pattern>
+        * [trabajo equipos] ^ [equipo trabajo equipos] ^
+    </pattern>
+    <template>
+        <srai>Tienes experiencia en la realizacion de proyectos en equipos de trabajo</srai>
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ equipo+ ^
+    </pattern>
+    <template>
+        <srai>Tienes experiencia en la realizacion de proyectos en equipos de trabajo</srai>
+    </template>
+</category>
+
+<!--7-->
+
+<category>
+    <pattern>
+        Realizarias un trabajo que no fuera con tu especialidad
+    </pattern>
+    <template>
+        Si, soy curioso para muchas cosas fuera de mi esfera. 
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ trabaj+ ^ (fuera) * [especialidad esfera]
+    </pattern>
+    <template>
+        <srai>Realizarias un trabajo que no fuera con tu especialidad</srai>
+    </template>
+</category>
+
+<!--8-->
+
+<category>
+    <pattern>
+        Te desplazarias de manera ocasional a otros lugares
+    </pattern>
+    <template>
+        Si, no tengo problema en desplazarme por causa del trabajo.
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ desplaz+ ^
+    </pattern>
+    <template>
+        <srai>Te desplazarias de manera ocasional a otros lugares</srai>
+    </template>
+</category>
+
+<!--9-->
+
+<category>
+    <pattern>
+        Te consideras una persona creativa
+    </pattern>
+    <template>
+        Si creo que tengo una vision mas amplia sobre los problemas y
+        puedo suponer soluciones atipicas.
+    </template>
+</category>
+
+<category>
+    <pattern>
+        * creativ+ ^
+    </pattern>
+    <template>
+        <srai>Te consideras una persona creativa</srai>
+    </template>
+</category>
+
+<category>
+    <pattern>
+        * inventiv+ ^
+    </pattern>
+    <template>
+        <srai>Te consideras una persona creativa</srai>
+    </template>
+</category>
+
+<!--10-->
+
+<category>
+    <pattern>
+        Que expectativas tienes de este trabajo
+    </pattern>
+    <template>
+        Considero que el puesto me permitirá crecer y aprender mucho
+    </template>
+</category>
+
+<category>
+    <pattern>
+        * expecta+ ^
+    </pattern>
+    <template>
+        <srai>Que expectativas tienes de este trabajo</srai>
+    </template>
+</category>
+
+<!--11-->
+
+<category>
+    <pattern>
+        Que trabajos has tenido en esta tematica
+    </pattern>
+    <template>
+        Tengo experiencia en el Operador electroenergetico de Bulgaria donde desarolle una aplicacion web internal de la empresa.
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ [experiencia+ trabaj+] ^ [tematica esfera] ^
+    </pattern>
+    <template>
+        <srai>Que trabajos has tenido en esta tematica</srai>
+    </template>
+</category>
+
+<!--12-->
+
+<category>
+    <pattern>
+        Normalmente te llevas el trabajo a casa
+    </pattern>
+    <template>
+        No, en ocasiones muy raras. No quiero mezclar mucho la vida profisional con la personal.
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ trabaj+ ^ casa ^
+    </pattern>
+    <template>
+        <srai>Normalmente te llevas el trabajo a casa</srai>
+    </template>
+</category>
+
+<!--13-->
+
+<category>
+    <pattern>
+        Cuales son tus aspiraciones salariales
+    </pattern>
+    <template>
+        Quiero tener un salario relevante a mi puesto, experiencia y calificaion.
+    </template>
+</category>
+
+<category>
+    <pattern> ^ salari+ ^ </pattern>
+    <template>
+        <srai>Cuales son tus aspiraciones salariales</srai>
+    </template>
+</category>
+
+<category>
+    <pattern> ^ dinero ^ </pattern>
+    <template>
+        <srai>Cuales son tus aspiraciones salariales</srai>
+    </template>
+</category>
+
+<!--14-->
+
+<category>
+    <pattern>
+        Donde te ves dentro de cinco anos
+    </pattern>
+    <template>
+        Quiero subir mi impacto en el desarollo de la empresa y ayudar a mi equipo a cumplir 
+        los objetivos de manera mas rapida y profesional.
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ cinco anos ^
+    </pattern>
+    <template>
+        <srai>Donde te ves dentro de cinco anos</srai>
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ 5 anos ^
+    </pattern>
+    <template>
+        <srai>Donde te ves dentro de cinco anos</srai>
+    </template>
+</category>
+
+<!--15-->
+
+<category>
+    <pattern>
+        No tienes experiencia para el puesto a desempenar
+    </pattern>
+    <template>
+        No tengo experiencia laboral pero tengo la experiencia de los proyectos en la universidad relacionados
+        con el puesto para que aplico
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ has trabajado ^ puesto ^
+    </pattern>
+    <template>
+        <srai>No tienes experiencia para el puesto a desempenar</srai>
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ experiencia ^ puesto ^
+    </pattern>
+    <template>
+        <srai>No tienes experiencia para el puesto a desempenar</srai>
+    </template>
+</category>
+
+<!--16-->
+
+<category>
+    <pattern>
+        Que sabes de la empresa y el puesto de trabajo
+    </pattern>
+    <template>
+        La empresa es una de las mas grandes en la esfera. Tiene historia de mas de 50 anos y provee las mejores
+        condiciones para sus clientes y empleados. 
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ sabe+ ^ la empresa ^
+    </pattern>
+    <template>
+        <srai>Que sabes de la empresa y el puesto de trabajo</srai>
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ conoces ^ la empresa ^
+    </pattern>
+    <template>
+        <srai>Que sabes de la empresa y el puesto de trabajo</srai>
+    </template>
+</category>
+
+<!--17-->
+
+<category>
+    <pattern>
+        Que haces cuando consideras que tu jefe no tiene la razon
+    </pattern>
+    <template>
+        Trato de descubrir sus motivos.
+    </template>
+</category>
+
+<category>
+    <pattern> ^ jefe ^ no tiene ^ razon ^ </pattern>
+    <template>
+        <srai>Que haces cuando consideras que tu jefe no tiene la razon</srai>
+    </template>
+</category>
+
+<!--18-->
+
+<category>
+    <pattern>
+        Por que deberiamos escogerte a ti
+    </pattern>
+    <template>
+        Tengo capacidad para el puesto y tengo motivacion de desarollarme en esta direccion.
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ escog+ a ti ^
+    </pattern>
+    <template>
+        <srai>Por que deberiamos escogerte a ti</srai>
+    </template>
+</category>
+
+<category>
+    <pattern>
+        ^ escogerte ^
+    </pattern>
+    <template>
+        <srai>Por que deberiamos escogerte a ti</srai>
+    </template>
+</category>
+
+</aiml>

@@ -1,0 +1,7 @@
+name:Teodor Grozdanov
+age:21
+study:Ciencias de la computacion
+university:Universidad de Sofia
+email:teodor.grozdanov@gmail.com
+gender:male
+
